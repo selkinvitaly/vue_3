@@ -1,3 +1,6 @@
+const uuid = require('node-uuid').v4;
+
+
 let users = [{
     uuid: '9d4b3485-f663-4323-9a30-dc970f07dcaa',
     titleName: 'miss',
@@ -33,6 +36,41 @@ let users = [{
     lastName: 'Perkins',
     phone: '061-482-9000',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/67.jpg'
+}, {
+    uuid: 'ef1f6cec-1c74-4a57-bac3-af98d2140158',
+    titleName: 'miss',
+    firstName: 'Jenny',
+    lastName: 'Jane',
+    phone: '051-482-7000',
+    avatarUrl: 'https://randomuser.me/api/portraits/med/women/68.jpg'
+}, {
+    uuid: 'ef1f6cec-1c74-4a57-bac3-bc68d2140158',
+    titleName: 'ms',
+    firstName: 'Alex',
+    lastName: 'Brown',
+    phone: '061-482-7000',
+    avatarUrl: 'https://randomuser.me/api/portraits/med/women/69.jpg'
+}, {
+    uuid: '9d4b3484-h663-4323-9a30-dc970f07dcaa',
+    titleName: 'ms',
+    firstName: 'Vannesa',
+    lastName: 'Sanders',
+    phone: '(304)-886-6860',
+    avatarUrl: 'https://randomuser.me/api/portraits/med/women/3.jpg'
+}, {
+    uuid: '2d4b3484-h663-4323-9a30-dc970f07dcaa',
+    titleName: 'ms',
+    firstName: 'Rannesa',
+    lastName: 'Gevora',
+    phone: '(204)-886-6860',
+    avatarUrl: 'https://randomuser.me/api/portraits/med/women/4.jpg'
+}, {
+    uuid: '4d4b2484-h663-4323-9a30-dc970f07dcaa',
+    titleName: 'miss',
+    firstName: 'Brannesa',
+    lastName: 'Nevora',
+    phone: '(104)-886-6860',
+    avatarUrl: 'https://randomuser.me/api/portraits/med/women/5.jpg'
 }];
 
 
@@ -40,8 +78,28 @@ exports.getAll = function() {
     return users;
 }
 
+exports.getPrevSiblingByUuid = function(uuid) {
+    const index = users.findIndex(u => u.uuid === uuid);
+
+    if (index === -1 || index === 0) {
+        return null;
+    }
+
+    return users[index - 1] || null;
+}
+
+exports.getNextSiblingByUuid = function(uuid) {
+    const index = users.findIndex(u => u.uuid === uuid);
+
+    if (index === -1 || index === users.length - 1) {
+        return null;
+    }
+
+    return users[index + 1] || null;
+}
+
 exports.getByUuid = function(uuid) {
-    return users.find(u => u.uuid === uuid);
+    return users.find(u => u.uuid === uuid) || null;
 }
 
 exports.replaceByUuid = function(uuid, newUser) {
@@ -53,6 +111,15 @@ exports.replaceByUuid = function(uuid, newUser) {
 
     users.splice(indexForFoundUser, 1, newUser);
     return users;
+}
+
+exports.createNewUser = function(userData) {
+    const userId = uuid();
+    users.push({
+        uuid: userId,
+        ...userData
+    });
+    return users.find(u => u.uuid === userId) || null;
 }
 
 exports.removeByUuid = function(uuid) {
