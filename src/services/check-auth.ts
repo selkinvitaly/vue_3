@@ -1,9 +1,10 @@
 import { Account } from '../models/accounts';
 import { getAuthToken } from '../utils/auth';
+import { API_HOST } from '../consts/hosts';
 
 
 export function checkAuth(): Promise<Account | null> {
-    return fetch(`//localhost:3001/api/v1/auth`, {
+    return fetch(`${API_HOST}/api/v1/auth`, {
         headers: {
             'Authorization': getAuthToken() || '',
             'Content-Type': 'application/json'

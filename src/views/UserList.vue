@@ -11,12 +11,21 @@
             v-if="usersNotFound"
             message="users not found!"
         />
-        <table v-if="isSuccess" class="table table-sm">
+        <DeleteUserModal
+            v-if="deleteModalIsVisible"
+            @confirm="confirmDeletionUser"
+            @cancel="markAsPendingDeletion(null)"
+        >
+            <h5 slot="header">Confirm user deletion!</h5>
+            <div slot="body">Are you sure that you want delete this user?</div>
+        </DeleteUserModal>
+        <table v-if="isSuccess" class="striped responsive-table">
             <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Avatar</th>
+                    <th scope="col">Delete</th>
                 </tr>
             </thead>
 
@@ -25,7 +34,8 @@
                     v-for="(user, index) in users"
                     is="UserItem"
                     :user-id="user.uuid"
-                    @viewUser="viewUser(user.uuid)"
+                    @view-user="viewUser($event)"
+                    @delete-user="markAsPendingDeletion($event)"
                     :key="user.uuid"
                     :index="index"
                     :title="user.titleName"
@@ -46,14 +56,16 @@ import { Component } from 'vue-property-decorator';
 import UserItem from '../components/UserItem.vue';
 import { LoadingStatus, User } from '../models/users';
 import { getUsers } from '../services/get-users';
+import { deleteUserById } from '../services/delete-user.by-id';
 import FailedStatus from '../components/FailedStatus.vue';
 import NotFound from '../components/NotFound.vue';
 import ProgressLoader from '../components/ProgressLoader.vue';
+import DeleteUserModal from '../components/DeleteUserModal.vue';
 
 
 @Component({
     components: {
-        ProgressLoader, FailedStatus, UserItem, NotFound
+        ProgressLoader, FailedStatus, UserItem, NotFound, DeleteUserModal
     },
 })
 export default class UserList extends Vue {
@@ -61,6 +73,8 @@ export default class UserList extends Vue {
     users: User[] = [];
     loadingStatus = LoadingStatus.Initial;
     errorMessage: string | null = null;
+
+    userIdPendingDeletion: string | null = null;
 
     get isLoading(): boolean {
         return this.loadingStatus === LoadingStatus.Loading;
@@ -78,6 +92,10 @@ export default class UserList extends Vue {
         return this.isSuccess && !this.users.length;
     }
 
+    get deleteModalIsVisible(): boolean {
+        return !!this.userIdPendingDeletion;
+    }
+
     mounted() {
         this.loadingStatus = LoadingStatus.Loading;
         getUsers()
@@ -91,8 +109,26 @@ export default class UserList extends Vue {
             });
     }
 
+    confirmDeletionUser(): void {
+        this.loadingStatus = LoadingStatus.Loading;
+        deleteUserById(this.userIdPendingDeletion!)
+            .then(() => {
+                this.loadingStatus = LoadingStatus.Success;
+                this.users = this.users.filter(u => u.uuid !== this.userIdPendingDeletion);
+                this.userIdPendingDeletion = null;
+            })
+            .catch(err => {
+                this.loadingStatus = LoadingStatus.Failed;
+                this.errorMessage = err.message;
+            });
+    }
+
     viewUser(userId: string): void {
         this.$router.push(`/users/${userId}`);
+    }
+
+    markAsPendingDeletion(userId: string | null): void {
+        this.userIdPendingDeletion = userId;
     }
 
 }

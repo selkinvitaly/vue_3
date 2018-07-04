@@ -4,7 +4,7 @@ exports.init = app => {
             ctx.set('Access-Control-Allow-Origin', ctx.get('Origin'));
         }
         if (ctx.method === 'OPTIONS') {
-            ctx.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT');
+            ctx.set('Access-Control-Allow-Methods', 'GET,HEAD,POST,PUT,DELETE');
             ctx.set('Access-Control-Allow-Headers', 'Content-Type,Authorization');
             ctx.status = 204;
         }

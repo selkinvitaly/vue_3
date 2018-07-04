@@ -3,7 +3,7 @@
         <th scope="row">{{index + 1}}</th>
         <td>
             <span
-                @click="onUserNameClick(userId)"
+                @click="viewUser(userId)"
                 style="border-bottom:1px dotted;cursor:pointer"
             >{{fullName}}</span>
         </td>
@@ -14,6 +14,12 @@
                 alt=""
             />
             <span v-else>default avatar</span>
+        </td>
+        <td>
+            <button
+                @click="deleteUser"
+                class="waves-effect waves-light btn red accent-2"
+            >delete <i class="material-icons right">delete</i></button>
         </td>
     </tr>
 </template>
@@ -52,8 +58,12 @@
             return `${this.title}. ${this.firstName} ${this.lastName}`;
         }
 
-        onUserNameClick(): void {
-            this.$emit('viewUser', this.userId);
+        viewUser(): void {
+            this.$emit('view-user', this.userId);
+        }
+
+        deleteUser(): void {
+            this.$emit('delete-user', this.userId);
         }
 
     }

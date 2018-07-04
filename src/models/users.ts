@@ -1,5 +1,6 @@
 export interface User {
     uuid: string;
+    email: string;
     avatarUrl: string | null;
     firstName: string;
     lastName: string;

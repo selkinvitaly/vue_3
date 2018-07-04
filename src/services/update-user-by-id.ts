@@ -1,4 +1,5 @@
 import { User } from '../models/users';
+import { API_HOST } from '../consts/hosts';
 
 
 export class HttpError extends Error {
@@ -13,7 +14,7 @@ export class HttpError extends Error {
 }
 
 export function updateUserById(uuid: string, newUser: User): Promise<null> {
-    return fetch(`//localhost:3001/api/v1/users/${uuid}`, {
+    return fetch(`${API_HOST}/api/v1/users/${uuid}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

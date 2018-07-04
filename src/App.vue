@@ -24,6 +24,12 @@
             </div>
         </nav>
         <router-view></router-view>
+        <div class="fixed-action-btn">
+            <button
+                @click="addUser"
+                class="pulse btn-floating btn-large waves-effect waves-light"
+            ><i class="material-icons">add</i></button>
+        </div>
     </div>
 </template>
 
@@ -33,7 +39,19 @@
 
 
     @Component({})
-    export default class App extends Vue {}
+    export default class App extends Vue {
+
+        addUser(): void {
+            this.$router.push({
+                name: 'new-user'
+            });
+        }
+    }
 
 </script>
+<style lang="stylus" scoped>
+nav
+    background-color: #26a69a
+</style>
+
 
