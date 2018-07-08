@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th scope="row">{{index}}</th>
+        <th scope="row">{{index + 1}}</th>
         <td>
             <span
                 @click="viewUser(user.uuid)"
@@ -19,6 +19,7 @@
         <td>
             <button
                 @click="deleteUser"
+                type="button"
                 class="waves-effect waves-light btn red accent-2"
             >delete <i class="material-icons right">delete</i></button>
         </td>

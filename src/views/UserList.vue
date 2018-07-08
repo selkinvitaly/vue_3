@@ -23,6 +23,8 @@
         <TableWithUsers
             v-if="isSuccess"
             :users="users"
+            :page-nav="pageNav"
+            :page-size="pageSize"
             @view-user="viewUser"
             @delete-user="markAsPendingDeletion"
         >

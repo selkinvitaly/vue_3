@@ -2,7 +2,6 @@ const uuid = require('node-uuid').v4;
 
 
 let users = [{
-    index: 1,
     uuid: '9d4b3485-f663-4323-9a30-dc970f07dcaa',
     email: 'test@email.com',
     titleName: 'miss',
@@ -11,7 +10,6 @@ let users = [{
     phone: '(904)-886-6860',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/2.jpg'
 }, {
-    index: 2,
     uuid: '128a2d2f-e239-4142-a578-069cd8ac54cb',
     email: 'test2@email.com',
     titleName: 'mrs',
@@ -20,7 +18,6 @@ let users = [{
     phone: '04-994-092',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/28.jpg'
 }, {
-    index: 3,
     uuid: '1f8a66e4-c005-444f-b60e-34de9f4f025b',
     email: 'test3@email.com',
     titleName: 'ms',
@@ -29,7 +26,6 @@ let users = [{
     phone: '02-1202-5143',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/43.jpg'
 }, {
-    index: 4,
     uuid: 'e7e9f6f3-879c-45fc-84ea-9ad074241392',
     email: 'test4@email.com',
     titleName: 'ms',
@@ -38,7 +34,6 @@ let users = [{
     phone: '091-53432658',
     avatarUrl: null
 }, {
-    index: 5,
     uuid: 'ef1f6cec-0c74-4a57-bac3-af98d2140158',
     email: 'test5@email.com',
     titleName: 'miss',
@@ -47,7 +42,6 @@ let users = [{
     phone: '061-482-9000',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/67.jpg'
 }, {
-    index: 6,
     uuid: 'ef1f6cec-1c74-4a57-bac3-af98d2140158',
     email: 'test6@email.com',
     titleName: 'miss',
@@ -56,7 +50,6 @@ let users = [{
     phone: '051-482-7000',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/68.jpg'
 }, {
-    index: 7,
     uuid: 'ef1f6cec-1c74-4a57-bac3-bc68d2140158',
     email: 'test6@email.com',
     titleName: 'ms',
@@ -65,7 +58,6 @@ let users = [{
     phone: '061-482-7000',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/69.jpg'
 }, {
-    index: 8,
     uuid: '9d4b3484-h663-4323-9a30-dc970f07dcaa',
     email: 'test7@email.com',
     titleName: 'ms',
@@ -74,7 +66,6 @@ let users = [{
     phone: '(304)-886-6860',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/3.jpg'
 }, {
-    index: 9,
     uuid: '2d4b3484-h663-4323-9a30-dc970f07dcaa',
     email: 'test8@email.com',
     titleName: 'ms',
@@ -83,7 +74,6 @@ let users = [{
     phone: '(204)-886-6860',
     avatarUrl: 'https://randomuser.me/api/portraits/med/women/4.jpg'
 }, {
-    index: 10,
     uuid: '4d4b2484-h663-4323-9a30-dc970f07dcaa',
     email: 'test9@email.com',
     titleName: 'miss',

@@ -15,13 +15,13 @@
 
             <tbody>
                 <tr
-                    v-for="user in users"
+                    v-for="(user, index) in users"
                     is="UserItem"
-                    :index="user.index"
+                    :index="getOrderByIndex(index)"
                     :key="user.uuid"
                     :user="user"
-                    @view-user="viewUser($event)"
-                    @delete-user="markAsPendingDeletion($event)"
+                    @view-user="viewUser"
+                    @delete-user="markAsPendingDeletion"
                 ></tr>
             </tbody>
         </table>
@@ -50,6 +50,16 @@ export default class TableWithUsers extends Vue {
 
     @Prop()
     users!: User[];
+
+    @Prop()
+    pageNav!: number;
+
+    @Prop()
+    pageSize!: number;
+
+    getOrderByIndex(i: number): number {
+        return (this.pageNav - 1) * this.pageSize + i;
+    }
 
     viewUser(userId: string): void {
         this.$emit('view-user', userId);
