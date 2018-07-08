@@ -1,6 +1,6 @@
 <template>
     <tr>
-        <th scope="row">{{index + 1}}</th>
+        <th scope="row">{{index}}</th>
         <td>
             <span
                 @click="viewUser(user.uuid)"
@@ -29,7 +29,7 @@
     import Vue from 'vue';
     import { Component, Prop } from 'vue-property-decorator';
 
-    import { User } from '../models/users';
+    import { User } from '../../models/users';
 
 
     @Component

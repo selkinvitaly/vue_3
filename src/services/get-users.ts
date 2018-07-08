@@ -9,7 +9,12 @@ interface GetUsersParams {
     skip?: number;
 }
 
-export function getUsers(params: GetUsersParams = {}): Promise<User[]> {
+interface GetUsersResponse {
+    users: User[];
+    total: number;
+}
+
+export function getUsers(params: GetUsersParams = {}): Promise<GetUsersResponse> {
     const { limit, skip } = params;
     const query = qs.stringify({ limit, skip });
     return fetch(`${API_HOST}/api/v1/users${!!query ? '?' + query : '' }`)

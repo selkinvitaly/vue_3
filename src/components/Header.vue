@@ -11,7 +11,7 @@
                 </router-link>
             </ul>
 
-            <ul id="nav-mobile" class="sidenav">
+            <ul ref="sidenav" id="nav-mobile" class="sidenav">
                 <router-link tag="li" to="/account">
                     <a>Account</a>
                 </router-link>
@@ -27,15 +27,28 @@
 <script lang="ts">
     import Vue from 'vue';
     import { Component } from 'vue-property-decorator';
+    import { Sidenav } from 'materialize-css';
 
 
     @Component({})
-    export default class Header extends Vue {}
+    export default class Header extends Vue {
+
+        sidenavInstance: Sidenav | null = null;
+
+        mounted() {
+            this.sidenavInstance = Sidenav.init(this.$refs.sidenav as HTMLElement);
+        }
+
+        destroyed() {
+            this.sidenavInstance!.destroy();
+        }
+    }
 
 </script>
 <style lang="stylus" scoped>
-nav
-    background-color: #26a69a
+    nav {
+        background-color: #26a69a
+    }
 </style>
 
 

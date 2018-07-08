@@ -15,5 +15,8 @@ module.exports = async ctx => {
         users = users.slice(0, toInt(limit));
     }
 
-    ctx.response.body = users;
+    ctx.response.body = {
+        users,
+        total: getAll().length
+    };
 };

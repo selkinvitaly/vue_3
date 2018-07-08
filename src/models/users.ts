@@ -9,6 +9,7 @@ export interface NewUser {
 
 export interface User extends NewUser {
     uuid: string;
+    index: number;
 }
 
 export interface SiblingsInfo {
