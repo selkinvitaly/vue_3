@@ -44,7 +44,7 @@ export default class PerPage extends Vue {
         this.dropdownInstance = Dropdown.init(this.$refs.dropdown as HTMLElement);
     }
 
-    destoyed() {
+    beforeDestroy() {
         this.dropdownInstance!.destroy();
     }
 

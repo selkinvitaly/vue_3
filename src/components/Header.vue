@@ -39,7 +39,7 @@
             this.sidenavInstance = Sidenav.init(this.$refs.sidenav as HTMLElement);
         }
 
-        destroyed() {
+        beforeDestroy() {
             this.sidenavInstance!.destroy();
         }
     }
