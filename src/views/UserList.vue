@@ -23,8 +23,8 @@
         <TableWithUsers
             v-if="isSuccess"
             :users="users"
-            @view-user="viewUser($event)"
-            @delete-user="markAsPendingDeletion($event)"
+            @view-user="viewUser"
+            @delete-user="markAsPendingDeletion"
         >
             <div class="controls" slot="header">
                 <div class="per-page">

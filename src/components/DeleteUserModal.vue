@@ -15,10 +15,12 @@
                     <div class="modal-footer">
                         <button
                             @click="confirm"
+                            type="button"
                             class="waves-effect waves-light btn red accent-2"
                         >Delete <i class="material-icons right">delete</i></button>
                         <button
                             @click="cancel"
+                            type="button"
                             class="waves-effect waves-light btn teal"
                         >Cancel <i class="material-icons right">cancel</i></button>
                     </div>
@@ -46,7 +48,7 @@ export default class DeleteUserModal extends Vue {
         document.addEventListener('keydown', this.keyDownHandler);
     }
 
-    destroyed() {
+    beforeDestroy() {
         document.removeEventListener('keydown', this.keyDownHandler);
     }
 
