@@ -12,6 +12,7 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'hash',
+  linkActiveClass: 'active',
   routes: [
     {
       path: '/',
@@ -27,20 +28,20 @@ const router = new Router({
       component: UserList
     },
     {
-      path: '/users/:id',
-      name: 'user-details',
-      meta: {
-            authRequired: true
-      },
-      component: UserDetails
-    },
-    {
         path: '/users/new/',
         name: 'new-user',
         meta: {
             authRequired: true
         },
         component: NewUser
+    },
+    {
+      path: '/users/:id',
+      name: 'user-details',
+      meta: {
+            authRequired: true
+      },
+      component: UserDetails
     },
     {
         path: '/account',
@@ -65,7 +66,7 @@ router.beforeEach((to, from, next) => {
                 next({
                     name: 'account',
                     query: {
-                        redirect: to.name!
+                        redirect: to.name as string
                     }
                 });
             }

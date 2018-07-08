@@ -120,7 +120,7 @@ exports.replaceByUuid = function(uuid, newUser) {
     }
 
     users.splice(indexForFoundUser, 1, newUser);
-    return users;
+    return newUser;
 }
 
 exports.createNewUser = function(userData) {

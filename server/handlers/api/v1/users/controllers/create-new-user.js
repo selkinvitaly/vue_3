@@ -2,7 +2,7 @@ const { createNewUser } = require('../../../../../modules/fake-users');
 
 
 module.exports = async ctx => {
-    const { titleName, firstName, lastName, phone, avatarUrl } = ctx.request.body;
+    const { titleName, firstName, lastName, phone, avatarUrl, email } = ctx.request.body;
 
     if (!titleName) {
         ctx.status = 400;
@@ -36,15 +36,15 @@ module.exports = async ctx => {
         return;
     }
 
-    if (!phone) {
+    if (!email) {
         ctx.status = 400; 
         ctx.body = {
-            error: 'missed "phone" for user!'
+            error: 'missed "email" for user!'
         };
         return;
     }
 
-    const createdUser = createNewUser({ titleName, firstName, lastName, phone, avatarUrl });
+    const createdUser = createNewUser({ titleName, firstName, lastName, phone, avatarUrl, email });
 
     ctx.status = 201;
     ctx.body = createdUser;

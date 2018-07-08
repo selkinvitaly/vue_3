@@ -1,30 +1,25 @@
 <template>
     <div>
-        <h1>new user</h1>
-        <!-- <button
-            type="button"
-            class="btn btn-outline-secondary"
-            @click="comeBack"
-        >come back</button>
-
         <ProgressLoader
             v-if="isLoading"
         />
 
         <FailedStatus
-            v-else-if="isFailed"
+            v-if="isFailed"
             :message="errorMessage"
         />
 
-        <NotFound
-            v-else-if="userNotFound"
-            message="no such user found!"
-        />
-
-        <EditingForm
-            :user="userDetails"
-            v-else
-        /> -->
+        <NewUserForm
+            v-model="newUserModel"
+            :is-loading="isLoading"
+        >
+            <button
+                type="button"
+                :disabled="!allFieldsFilled"
+                class="waves-effect waves-light btn"
+                @click="createUser"
+            >create new user</button>
+        </NewUserForm>
     </div>
 </template>
 
@@ -32,65 +27,70 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-// import FailedStatus from '../components/FailedStatus.vue';
-// import NotFound from '../components/NotFound.vue';
-// import ProgressLoader from '../components/ProgressLoader.vue';
-// import EditingForm from '../components/EditingForm.vue';
-// import { LoadingStatus, User } from '../models/users';
-// import { getUserById } from '../services/get-user-by-id';
+import FailedStatus from '../components/FailedStatus.vue';
+import ProgressLoader from '../components/ProgressLoader.vue';
+import NewUserForm from '../components/NewUserForm.vue';
+import { LoadingStatus, NewUser } from '../models/users';
+import { createNewUser } from '../services/create-new-user';
 
 
 @Component({
     components: {
-        // FailedStatus, ProgressLoader, NotFound, EditingForm
+        FailedStatus, ProgressLoader, NewUserForm
     }
 })
 export default class UserDetails extends Vue {
 
-    // userDetails: User | null = null;
-    // loadingStatus = LoadingStatus.Initial;
-    // errorMessage: string | null = null;
+    newUserModel = this.getDefaultModel();
+    loadingStatus = LoadingStatus.Initial;
+    errorMessage: string | null = null;
 
-    // get userId(): string {
-    //     return this.$route.params.id;
-    // }
+    get isLoading(): boolean {
+        return this.loadingStatus === LoadingStatus.Loading;
+    }
 
-    // get isLoading(): boolean {
-    //     return this.loadingStatus === LoadingStatus.Loading;
-    // }
+    get isFailed(): boolean {
+        return this.loadingStatus === LoadingStatus.Failed;
+    }
 
-    // get isFailed(): boolean {
-    //     return this.loadingStatus === LoadingStatus.Failed;
-    // }
+    get isSuccess(): boolean {
+        return this.loadingStatus === LoadingStatus.Success;
+    }
 
-    // get isSuccessAndUserDetailsExists(): boolean {
-    //     return this.isSuccess && !!this.userDetails;
-    // }
+    get allFieldsFilled(): boolean {
+        return Object.keys(this.newUserModel)
+            .reduce((acc: boolean, field: string) => {
+                // avatarUrl - optional
+                return field !== 'avatarUrl'
+                    ? acc && !!(this.newUserModel as {[key: string]: any})[field]
+                    : acc;
+            }, true);
+    }
 
-    // get userNotFound(): boolean {
-    //     return this.isSuccess && !this.userDetails;
-    // }
+    getDefaultModel(): NewUser {
+        return {
+            titleName: '',
+            firstName: '',
+            lastName: '',
+            avatarUrl: '',
+            phone: '',
+            email: ''
+        };
+    }
 
-    // get isSuccess(): boolean {
-    //     return this.loadingStatus === LoadingStatus.Success;
-    // }
 
-    // mounted() {
-    //     this.loadingStatus = LoadingStatus.Loading;
-    //     getUserById(this.userId)
-    //         .then((details) => {
-    //             this.loadingStatus = LoadingStatus.Success;
-    //             this.userDetails = details;
-    //         })
-    //         .catch((err) => {
-    //             this.loadingStatus = LoadingStatus.Failed;
-    //             this.errorMessage = err.message;
-    //         });
-    // }
-
-    // comeBack(): void {
-    //     this.$router.back();
-    // }
+    createUser(): void {
+        this.loadingStatus = LoadingStatus.Loading;
+        createNewUser(this.newUserModel)
+            .then(() => {
+                this.newUserModel = this.getDefaultModel();
+                this.loadingStatus = LoadingStatus.Success;
+            })
+            .catch(err => {
+                this.errorMessage = err.message;
+                this.loadingStatus = LoadingStatus.Failed;
+            });
+    }
 
 }
 </script>

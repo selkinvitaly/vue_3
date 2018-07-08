@@ -33,15 +33,11 @@
                 <tr
                     v-for="(user, index) in users"
                     is="UserItem"
-                    :user-id="user.uuid"
+                    :index="index"
+                    :key="user.uuid"
+                    :user="user"
                     @view-user="viewUser($event)"
                     @delete-user="markAsPendingDeletion($event)"
-                    :key="user.uuid"
-                    :index="index"
-                    :title="user.titleName"
-                    :avatar-src="user.avatarUrl"
-                    :first-name="user.firstName"
-                    :last-name="user.lastName"
                 ></tr>
             </tbody>
         </table>
@@ -124,7 +120,12 @@ export default class UserList extends Vue {
     }
 
     viewUser(userId: string): void {
-        this.$router.push(`/users/${userId}`);
+        this.$router.push({
+            name: 'user-details',
+            params: {
+                id: userId
+            }
+        });
     }
 
     markAsPendingDeletion(userId: string | null): void {
