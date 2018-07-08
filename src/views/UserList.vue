@@ -108,6 +108,10 @@ export default class UserList extends Vue {
         return this.pageSize;
     }
 
+    get maxAvailablePage(): number {
+        return Math.ceil(this.totalUsers / this.pageSize);
+    }
+
     mounted() {
         this.fetchUsers();
     }
@@ -115,6 +119,9 @@ export default class UserList extends Vue {
     @Watch('pageNav')
     @Watch('pageSize')
     updateUserList(): void {
+        if (this.pageNav > this.maxAvailablePage) {
+            this.pageNav = 1;
+        }
         this.fetchUsers();
     }
 
