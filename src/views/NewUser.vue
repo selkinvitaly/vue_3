@@ -74,6 +74,7 @@ export default class UserDetails extends Vue {
             lastName: '',
             avatarUrl: '',
             phone: '',
+            birthday: '',
             email: ''
         };
     }

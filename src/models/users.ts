@@ -1,5 +1,6 @@
 export interface NewUser {
     email: string;
+    birthday: string;
     avatarUrl: string | null;
     firstName: string;
     lastName: string;

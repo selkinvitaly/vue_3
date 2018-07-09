@@ -61,6 +61,15 @@
             </div>
 
             <div class="form-group">
+                <Datepicker
+                    title="Birthday"
+                    id="edit-birthday"
+                    placeholder="Enter your birthday"
+                    v-model="localUserModel.birthday"
+                />
+            </div>
+
+            <div class="form-group">
                 <label for="edit-avatar">Avatar Url</label>
                 <input
                     v-model="localUserModel.avatarUrl"
@@ -82,9 +91,14 @@ import Vue from 'vue';
 import { Component, Prop, Watch, Model } from 'vue-property-decorator';
 
 import { NewUser } from '../models/users';
+import Datepicker from './Datepicker.vue';
 
 
-@Component({})
+@Component({
+    components: {
+        Datepicker
+    }
+})
 export default class UserForm extends Vue {
 
     localUserModel: NewUser = {
