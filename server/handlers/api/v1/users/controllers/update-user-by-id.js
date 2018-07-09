@@ -60,9 +60,9 @@ module.exports = async ctx => {
         return;
     }
 
-    replaceByUuid(userId, {
+    const updatedUser = replaceByUuid(userId, {
         uuid, firstName, lastName, titleName, phone, avatarUrl
     });
 
-    ctx.status = 204;
+    ctx.body = updatedUser;
 };

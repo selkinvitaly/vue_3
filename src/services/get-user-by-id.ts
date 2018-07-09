@@ -1,8 +1,9 @@
 import { User } from '../models/users';
+import { API_HOST } from '../consts/hosts';
 
 
 export function getUserById(uuid: string): Promise<User | null> {
-    return fetch(`//localhost:3001/api/v1/users/${uuid}`)
+    return fetch(`${API_HOST}/api/v1/users/${uuid}`)
         .then((res) => {
             if (res.status === 404) {
                 return null;

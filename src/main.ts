@@ -5,7 +5,6 @@ import 'materialize-css/dist/css/materialize.css';
 
 import App from './App.vue';
 import router from './router';
-import './vendor/materialize';
 
 
 ES6Promise.polyfill();

@@ -112,6 +112,7 @@ export default class PersonalAccount extends Vue {
                 this.loadingStatus = LoadingStatus.Success;
                 this.account = account;
                 this.authFormVisible = false;
+                this.redirectIfNecessary();
             })
             .catch(err => {
                 this.loadingStatus = LoadingStatus.Failed;
@@ -119,6 +120,17 @@ export default class PersonalAccount extends Vue {
                 this.errorMessage = err.message;
             });
     }
+
+    redirectIfNecessary() {
+        const query = this.$route.query;
+        if (!query.redirect) {
+            return;
+        }
+        this.$router.push({
+            name: query.redirect
+        });
+    }
+
 
     showAuthForm(): void {
         this.authFormVisible = true;

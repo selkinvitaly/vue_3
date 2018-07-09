@@ -1,10 +1,19 @@
-export interface User {
-    uuid: string;
+export interface NewUser {
+    email: string;
     avatarUrl: string | null;
     firstName: string;
     lastName: string;
     phone: string;
     titleName: string;
+}
+
+export interface User extends NewUser {
+    uuid: string;
+}
+
+export interface SiblingsInfo {
+    prev: string | null;
+    next: string | null;
 }
 
 export enum LoadingStatus {

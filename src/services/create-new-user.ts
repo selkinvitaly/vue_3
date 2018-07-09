@@ -1,11 +1,12 @@
-import { User } from '../models/users';
+import { User, NewUser } from '../models/users';
 import { HttpError } from '../models/errors';
 import { API_HOST } from '../consts/hosts';
 
 
-export function updateUserById(uuid: string, newUser: User): Promise<User> {
-    return fetch(`${API_HOST}/api/v1/users/${uuid}`, {
-        method: 'PUT',
+
+export function createNewUser(newUser: NewUser): Promise<User> {
+    return fetch(`${API_HOST}/api/v1/users`, {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -13,7 +14,7 @@ export function updateUserById(uuid: string, newUser: User): Promise<User> {
     })
         .then((res) => {
             switch (res.status) {
-                case 200:
+                case 201:
                     return res.json();
 
                 case 400:
@@ -27,7 +28,7 @@ export function updateUserById(uuid: string, newUser: User): Promise<User> {
                     });
 
                 default:
-                    throw new HttpError('an error occurred while updating user', res.status);
+                    throw new HttpError('an error occurred after creating user', res.status);
             }
         })
         .catch((err: Error) => {
