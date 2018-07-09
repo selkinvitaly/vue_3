@@ -9,7 +9,9 @@
                 @click="addUser"
                 type="button"
                 class="red pulse btn-floating btn-large waves-effect waves-light"
-            ><i class="material-icons">add</i></button>
+            >
+                <i class="material-icons">add</i>
+            </button>
         </div>
 
         <Footer />

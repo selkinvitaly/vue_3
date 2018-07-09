@@ -7,8 +7,7 @@
                         placeholder="Login"
                         id="login"
                         type="text"
-                        :value="login"
-                        @input="onInputLogin"
+                        v-model="localFormData.login"
                         required
                     >
                     <label for="login">Login</label>
@@ -18,8 +17,7 @@
                     <input
                         id="password"
                         type="password"
-                        :value="password"
-                        @input="onPasswordLogin"
+                        v-model="localFormData.password"
                         required
                     >
                     <label for="password">Password</label>
@@ -41,25 +39,24 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Prop } from 'vue-property-decorator';
+import { Component, Watch, Model } from 'vue-property-decorator';
 
+import { SignInData } from '../models/accounts';
 
 
 @Component({})
 export default class SignInForm extends Vue {
 
-    @Prop()
-    login!: string;
+    localFormData: SignInData = {
+        ...this.account
+    };
 
-    @Prop()
-    password!: string;
+    @Model('update-account-model', { type: Object })
+    account!: SignInData;
 
-    onInputLogin($e: Event): void {
-        this.$emit('input-login', ($e.target as HTMLInputElement).value);
-    }
-
-    onPasswordLogin($e: Event): void {
-        this.$emit('input-password', ($e.target as HTMLInputElement).value);
+    @Watch('localFormData', { deep: true })
+    onChangeForm() {
+        this.$emit('update-account-model', this.localFormData);
     }
 
     onSubmit(): void {

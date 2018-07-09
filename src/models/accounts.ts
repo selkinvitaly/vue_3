@@ -3,3 +3,8 @@ export interface Account {
     login: string;
     password: string;
 }
+
+export interface SignInData {
+    login: string;
+    password: string;
+}

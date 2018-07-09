@@ -3,11 +3,11 @@
         <ProgressLoader
             v-if="isLoading"
         />
-        <FailedStatus
+        <Alert
             v-if="isFailed"
             :message="errorMessage"
         />
-        <NotFound
+        <Alert
             v-if="usersNotFound"
             message="users not found!"
         />
@@ -59,15 +59,14 @@ import { LoadingStatus, User } from '../models/users';
 import { PageSizeTypes } from '../models/pagination';
 import { getUsers } from '../services/get-users';
 import { deleteUserById } from '../services/delete-user.by-id';
-import FailedStatus from '../components/FailedStatus.vue';
-import NotFound from '../components/NotFound.vue';
+import Alert from '../components/Alert.vue';
 import ProgressLoader from '../components/ProgressLoader.vue';
 import DeleteUserModal from '../components/DeleteUserModal.vue';
 
 
 @Component({
     components: {
-        ProgressLoader, FailedStatus, TableWithUsers, NotFound, DeleteUserModal,
+        ProgressLoader, Alert, TableWithUsers, DeleteUserModal,
         PageNav, PerPage
     },
 })

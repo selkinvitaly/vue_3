@@ -1,10 +1,10 @@
 <template>
-    <div class="row">
+    <div class="row new-user">
         <form class="col s12 m6 offset-m3">
             <div class="form-group">
-                <label for="edit-title-name">Title</label>
+                <label for="edit-title-name">Title name</label>
                 <input
-                    v-model="localUserData.titleName"
+                    v-model="localUserModel.titleName"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -15,7 +15,7 @@
             <div class="form-group">
                 <label for="edit-first-name">First name</label>
                 <input
-                    v-model="localUserData.firstName"
+                    v-model="localUserModel.firstName"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <label for="edit-last-name">Last name</label>
                 <input
-                    v-model="localUserData.lastName"
+                    v-model="localUserModel.lastName"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -39,7 +39,7 @@
             <div class="form-group">
                 <label for="edit-phone">Phone</label>
                 <input
-                    v-model="localUserData.phone"
+                    v-model="localUserModel.phone"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -51,7 +51,7 @@
             <div class="form-group">
                 <label for="edit-email">Email</label>
                 <input
-                    v-model="localUserData.email"
+                    v-model="localUserModel.email"
                     :disabled="isLoading"
                     type="email"
                     class="form-control"
@@ -63,7 +63,7 @@
             <div class="form-group">
                 <label for="edit-avatar">Avatar Url</label>
                 <input
-                    v-model="localUserData.avatarUrl"
+                    v-model="localUserModel.avatarUrl"
                     :disabled="isLoading"
                     type="url"
                     class="form-control"
@@ -78,31 +78,35 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import { Component, Model, Watch, Prop } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component, Prop, Watch, Model } from 'vue-property-decorator';
 
-    import { User } from '../models/users';
-
-
-    @Component({})
-    export default class EditingForm extends Vue {
-
-        localUserData: User = {
-            ...this.user
-        };
-
-        @Prop()
-        isLoading!: boolean;
-
-        @Model('update-user', { type: Object })
-        user!: User;
-
-        @Watch('localUserData', { deep: true })
-        updateModelForNewUser() {
-            this.$emit('update-user', this.localUserData);
-        }
+import { NewUser } from '../models/users';
 
 
+@Component({})
+export default class UserForm extends Vue {
+
+    localUserModel: NewUser = {
+        ...this.userModel
+    };
+
+    @Prop()
+    isLoading!: boolean;
+
+    @Model('update-user-model', { type: Object })
+    userModel!: NewUser;
+
+    @Watch('localUserModel', { deep: true })
+    updateModelForNewUser() {
+        this.$emit('update-user-model', this.localUserModel);
     }
+
+}
 </script>
 
+<style lang="stylus" scoped>
+    .new-user {
+        padding-top: 20px
+    }
+</style>
