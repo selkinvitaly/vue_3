@@ -81,14 +81,24 @@ export default class UserDetails extends Vue {
     createUser(): void {
         this.loadingStatus = LoadingStatus.Loading;
         createNewUser(this.newUserModel)
-            .then(() => {
+            .then(newUser => {
                 this.newUserModel = this.getDefaultModel();
                 this.loadingStatus = LoadingStatus.Success;
+                this.redirectAfterCreating(newUser.uuid);
             })
             .catch(err => {
                 this.errorMessage = err.message;
                 this.loadingStatus = LoadingStatus.Failed;
             });
+    }
+
+    redirectAfterCreating(newUserId: string): void {
+        this.$router.push({
+            name: 'user-details',
+            params: {
+                id: newUserId
+            }
+        });
     }
 
 }

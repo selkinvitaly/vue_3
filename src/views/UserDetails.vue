@@ -156,11 +156,18 @@ export default class UserDetails extends Vue {
                     ...this.userDetails!
                 };
                 this.loadingStatus = LoadingStatus.Success;
+                this.redirectAfterUpdating();
             })
             .catch(err => {
                 this.loadingStatus = LoadingStatus.Failed;
                 this.errorMessage = err.message;
             });
+    }
+
+    redirectAfterUpdating(): void {
+        this.$router.push({
+            name: 'user-list'
+        });
     }
 
     goPrevUser(): void {
@@ -187,8 +194,8 @@ export default class UserDetails extends Vue {
 <style lang="stylus" scoped>
 
     .update-user-btns {
-        display: flex
-        justify-content: space-between
+        display flex
+        justify-content space-between
     }
 </style>
 

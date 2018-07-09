@@ -5,7 +5,7 @@ module.exports = async ctx => {
     const userId = ctx.params.id;
     const foundUser = getByUuid(userId);
 
-    const { uuid, firstName, lastName, titleName, phone, avatarUrl } = ctx.request.body;
+    const { uuid, firstName, lastName, titleName, phone, avatarUrl = null } = ctx.request.body;
 
     if (uuid !== userId) {
         ctx.status = 400;
@@ -48,14 +48,6 @@ module.exports = async ctx => {
         ctx.status = 400;
         ctx.body = {
             error: 'missed "phone" for user'
-        };
-        return;
-    }
-
-    if (!avatarUrl && avatarUrl !== null) {
-        ctx.status = 400;
-        ctx.body = {
-            error: 'missed "avatarUrl" for user'
         };
         return;
     }
