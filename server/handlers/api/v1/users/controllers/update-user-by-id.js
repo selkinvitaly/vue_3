@@ -6,7 +6,7 @@ module.exports = async ctx => {
     const foundUser = getByUuid(userId);
 
     const { uuid, firstName, lastName, titleName, phone, birthday,
-        avatarUrl = null
+        avatarUrl = null, biography
     } = ctx.request.body;
 
     if (uuid !== userId) {
@@ -26,6 +26,14 @@ module.exports = async ctx => {
         ctx.status = 400;
         ctx.body = {
             error: 'missed "firstName" for user'
+        };
+        return;
+    }
+
+    if (!biography) {
+        ctx.status = 400;
+        ctx.body = {
+            error: 'missed "biography" for user'
         };
         return;
     }
@@ -63,7 +71,7 @@ module.exports = async ctx => {
     }
 
     const updatedUser = replaceByUuid(userId, {
-        uuid, firstName, lastName, titleName, phone, avatarUrl, birthday
+        uuid, firstName, lastName, titleName, phone, avatarUrl, birthday, biography
     });
 
     ctx.body = updatedUser;

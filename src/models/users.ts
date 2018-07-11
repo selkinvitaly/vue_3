@@ -6,6 +6,7 @@ export interface NewUser {
     lastName: string;
     phone: string;
     titleName: string;
+    biography: string;
 }
 
 export interface User extends NewUser {

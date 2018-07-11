@@ -80,7 +80,20 @@
                     placeholder="Enter link for your avatar"
                 >
             </div>
-            
+
+            <div class="row">
+                <div class="input-field col s12">
+                    <textarea
+                        id="biography"
+                        class="active biography materialize-textarea"
+                        :disabled="isLoading"
+                        placeholder="Enter your biography"
+                        v-model="localUserModel.biography"
+                    ></textarea>
+                    <label for="biography">Biography</label>
+                </div>
+            </div>
+
             <slot></slot>
         </form>
     </div>
@@ -121,6 +134,10 @@ export default class UserForm extends Vue {
 
 <style lang="stylus" scoped>
     .new-user {
-        padding-top: 20px
+        padding-top 20px
+    }
+
+    .biography {
+        min-height 200px
     }
 </style>

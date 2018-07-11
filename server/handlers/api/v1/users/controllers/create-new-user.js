@@ -3,13 +3,21 @@ const { createNewUser } = require('../../../../../modules/fake-users');
 
 module.exports = async ctx => {
     const { titleName, firstName, lastName, phone, avatarUrl,
-        email, birthday
+        email, birthday, biography
     } = ctx.request.body;
 
     if (!titleName) {
         ctx.status = 400;
         ctx.body = {
             error: 'missed "titleName" for user!'
+        };
+        return;
+    }
+
+    if (!biography) {
+        ctx.status = 400;
+        ctx.body = {
+            error: 'missed "biography" for user!'
         };
         return;
     }
@@ -55,7 +63,7 @@ module.exports = async ctx => {
     }
 
     const createdUser = createNewUser({
-        titleName, firstName, lastName, phone, avatarUrl, email, birthday
+        titleName, firstName, lastName, phone, avatarUrl, email, birthday, biography
     });
 
     ctx.status = 201;
