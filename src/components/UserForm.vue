@@ -82,16 +82,13 @@
             </div>
 
             <div class="row">
-                <div class="input-field col s12">
-                    <textarea
-                        id="biography"
-                        class="active biography materialize-textarea"
-                        :disabled="isLoading"
-                        placeholder="Enter your biography"
-                        v-model="localUserModel.biography"
-                    ></textarea>
-                    <label for="biography">Biography</label>
-                </div>
+                <WysiwygArea
+                    :is-loading="isLoading"
+                    id="biography"
+                    v-model="localUserModel.biography"
+                    placeholder="Enter your biography"
+                    title="Biography"
+                />
             </div>
 
             <slot></slot>
@@ -105,11 +102,12 @@ import { Component, Prop, Watch, Model } from 'vue-property-decorator';
 
 import { NewUser } from '../models/users';
 import Datepicker from './Datepicker.vue';
+import WysiwygArea from './WysiwygArea.vue';
 
 
 @Component({
     components: {
-        Datepicker
+        Datepicker, WysiwygArea
     }
 })
 export default class UserForm extends Vue {

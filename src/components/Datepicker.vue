@@ -39,8 +39,7 @@ export default class Datepicker extends Vue {
 
     @Watch('date')
     updateDate(): void {
-        this.changeDateInFlatpickr(this.date);
-        this.emitUpdatedDateToParent(this.date);
+        (((this.$options as any).instance) as flatpickr.Instance).setDate(this.date);
     }
 
     mounted() {
@@ -48,17 +47,13 @@ export default class Datepicker extends Vue {
         (this.$options as any).instance = flatpickr(inputRef, {
             dateFormat: 'd.m.Y',
             onChange: (dates: Date[], date: string): void => {
-                this.emitUpdatedDateToParent(date);
+                this.$emit('update-date', date);
             }
         });
     }
 
     beforeDestroy() {
         (((this.$options as any).instance) as flatpickr.Instance).destroy();
-    }
-
-    emitUpdatedDateToParent(date: string): void {
-        this.$emit('update-date', date);
     }
 
     changeDateInFlatpickr(date: string): void {

@@ -11,6 +11,7 @@
   "author": "selkin vitaly",
   "license": "ISC",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "10.1.0",
     "es6-promise": "4.2.4",
     "flatpickr": "4.5.1",
     "lodash": "4.17.10",
