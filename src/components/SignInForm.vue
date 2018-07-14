@@ -7,6 +7,9 @@
                         placeholder="Login"
                         id="login"
                         type="text"
+                        v-validate="'required'"
+                        name="login"
+                        :class="{'form-control': true, 'invalid': errors.has('login')}"
                         v-model="localFormData.login"
                         required
                     >
@@ -17,6 +20,9 @@
                     <input
                         id="password"
                         type="password"
+                        v-validate="'required'"
+                        name="password"
+                        :class="{'form-control': true, 'invalid': errors.has('password')}"
                         v-model="localFormData.password"
                         required
                     >

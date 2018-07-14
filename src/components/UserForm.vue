@@ -5,6 +5,9 @@
                 <label for="edit-title-name">Title name</label>
                 <input
                     v-model="localUserModel.titleName"
+                    v-validate="'required|max:5'"
+                    :class="{'form-control': true, 'invalid': errors.has('title')}"
+                    name="title"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -16,6 +19,9 @@
                 <label for="edit-first-name">First name</label>
                 <input
                     v-model="localUserModel.firstName"
+                    v-validate="'required'"
+                    :class="{'form-control': true, 'invalid': errors.has('first-name')}"
+                    name="first-name"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -28,6 +34,9 @@
                 <label for="edit-last-name">Last name</label>
                 <input
                     v-model="localUserModel.lastName"
+                    v-validate="'required'"
+                    :class="{'form-control': true, 'invalid': errors.has('last-name')}"
+                    name="last-name"
                     :disabled="isLoading"
                     type="text"
                     class="form-control"
@@ -52,6 +61,9 @@
                 <label for="edit-email">Email</label>
                 <input
                     v-model="localUserModel.email"
+                    v-validate="'required|email'"
+                    name="email"
+                    :class="{'form-control': true, 'invalid': errors.has('email')}"
                     :disabled="isLoading"
                     type="email"
                     class="form-control"
@@ -73,6 +85,9 @@
                 <label for="edit-avatar">Avatar Url</label>
                 <input
                     v-model="localUserModel.avatarUrl"
+                    v-validate="'url'"
+                    name="avatar"
+                    :class="{'form-control': true, 'invalid': errors.has('avatar')}"
                     :disabled="isLoading"
                     type="url"
                     class="form-control"
