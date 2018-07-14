@@ -11,6 +11,9 @@
                 <router-link tag="li" to="/users/">
                     <a>Users</a>
                 </router-link>
+                <router-link tag="li" to="/contacts/">
+                    <a>Contacts</a>
+                </router-link>
             </ul>
 
             <ul ref="sidenav" id="nav-mobile" class="sidenav">
@@ -19,6 +22,9 @@
                 </router-link>
                 <router-link tag="li" to="/users/">
                     <a>Users</a>
+                </router-link>
+                <router-link tag="li" to="/contacts/">
+                    <a>Contacts</a>
                 </router-link>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>

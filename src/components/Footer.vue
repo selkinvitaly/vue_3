@@ -15,6 +15,9 @@
                 <router-link tag="li" to="/users/">
                     <a class="grey-text text-lighten-3">Users</a>
                 </router-link>
+                <router-link tag="li" to="/contacts/">
+                    <a class="grey-text text-lighten-3">Contacts</a>
+                </router-link>
             </ul>
             </div>
         </div>

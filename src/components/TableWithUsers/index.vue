@@ -35,24 +35,17 @@
             </div>
             <table class="striped responsive-table">
                 <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Avatar</th>
-                        <th scope="col">Delete</th>
-                    </tr>
+                    <slot name="header" />
                 </thead>
 
                 <tbody>
-                    <tr
-                        v-for="(user, index) in users"
-                        is="UserItem"
-                        :index="getOrderByIndex(index)"
-                        :key="user.uuid"
-                        :user="user"
-                        @view-user="viewUser"
-                        @delete-user="markAsPendingDeletion"
-                    ></tr>
+                    <slot
+                        name="body"
+                        :users="users"
+                        :get-order-by-index="getOrderByIndex"
+                        :view-user="viewUser"
+                        :mark-as-pending-deletion="markAsPendingDeletion"
+                    />
                 </tbody>
             </table>
             <div class="footer">
@@ -74,7 +67,6 @@
 import Vue from 'vue';
 import { Component, Watch } from 'vue-property-decorator';
 
-import UserItem from './UserItem.vue';
 import PageNav from './PageNav.vue';
 import PerPage from './PerPage.vue';
 import ProgressLoader from '../ProgressLoader.vue';
@@ -88,7 +80,7 @@ import { deleteUserById } from '../../services/delete-user.by-id';
 
 @Component({
     components: {
-        UserItem, PageNav, PerPage, ProgressLoader, DeleteUserModal, Alert
+        PageNav, PerPage, ProgressLoader, DeleteUserModal, Alert
     }
 })
 export default class TableWithUsers extends Vue {
