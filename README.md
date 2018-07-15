@@ -1,4 +1,4 @@
-# vue_5
+# vue_6
 
 ## Quick start
 
