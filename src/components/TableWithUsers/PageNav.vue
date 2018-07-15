@@ -6,9 +6,9 @@
         ><a><i class="material-icons">chevron_left</i></a></li>
         <li
             :class="{'waves-effect': true, 'active': page === currentPage}"
-            @click="selectPage(page)"
-            v-for="page in maxPage"
-        ><a>{{page}}</a></li>
+            @click="selectPage(currentPage)"
+            v-for="currentPage in maxPage"
+        ><a>{{currentPage}}</a></li>
         <li
             :class="{'disabled': !nextPageIsAvailable, 'waves-effect': true}"
             @click="goNext"
@@ -33,11 +33,9 @@ export default class PageNav extends Vue {
     @Prop()
     size!: number;
 
-    currentPage = this.page;
-
-    @Watch('currentPage')
+    @Watch('page')
     changePage() {
-        this.$emit('change-page', this.currentPage);
+        this.$emit('change-page', this.page);
     }
 
     get maxPage(): number {
@@ -45,29 +43,29 @@ export default class PageNav extends Vue {
     }
 
     get prevPageIsAvailable(): boolean {
-        return this.currentPage > 1;
+        return this.page > 1;
     }
 
     get nextPageIsAvailable(): boolean {
-        return this.maxPage !== this.currentPage;
+        return this.maxPage !== this.page;
     }
 
     selectPage(page: number): void {
-        this.currentPage = page;
+        this.$emit('change-page', page);
     }
 
     goPrev(): void {
         if (!this.prevPageIsAvailable) {
             return;
         }
-        this.selectPage(this.currentPage - 1);
+        this.selectPage(this.page - 1);
     }
 
     goNext(): void {
         if (!this.nextPageIsAvailable) {
             return;
         }
-        this.selectPage(this.currentPage + 1);
+        this.selectPage(this.page + 1);
     }
 
 }
