@@ -65,7 +65,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { Component, Watch } from 'vue-property-decorator';
+import { Component } from 'vue-property-decorator';
 
 import PageNav from './PageNav.vue';
 import PerPage from './PerPage.vue';
@@ -74,8 +74,7 @@ import DeleteUserModal from '../DeleteUserModal.vue';
 import Alert from '../Alert.vue';
 import { User, LoadingStatus } from '../../models/users';
 import { PageSizeTypes } from '../../models/pagination';
-import { getUsers } from '../../services/get-users';
-import { deleteUserById } from '../../services/delete-user.by-id';
+import { UsersModuleState, UsersModuleGetters } from '../../store/modules/users';
 
 
 @Component({
@@ -85,45 +84,84 @@ import { deleteUserById } from '../../services/delete-user.by-id';
 })
 export default class TableWithUsers extends Vue {
 
-    users: User[] = [];
-    totalUsers = 0;
-    loadingStatus = LoadingStatus.Initial;
-    errorMessage: string | null = null;
-    pageNav = 1;
-    pageSize = PageSizeTypes.ThreeUsersPerPage;
-    userIdPendingDeletion: string | null = null;
+    get state(): UsersModuleState {
+        return this.$store.state.users;
+    }
 
+    get getters(): UsersModuleGetters {
+        return this.$store.getters;
+    }
+
+
+    get totalUsers(): number {
+        return this.state.totalUsers;
+    }
+
+    get users(): User[] {
+        return this.state.users;
+    }
+
+    get errorMessage(): string | null {
+        return this.state.errorMessage;
+    }
+
+    get pageNav(): number {
+        return this.state.pageNav;
+    }
+
+    set pageNav(page: number) {
+        this.$store.commit({
+            type: 'setPageNav',
+            page
+        });
+        this.fetchUsers();
+    }
+
+    get pageSize(): PageSizeTypes {
+        return this.state.pageSize;
+    }
+
+    set pageSize(size: PageSizeTypes) {
+        this.$store.commit({
+            type: 'setPageSize',
+            size
+        });
+        if (this.pageNav > this.maxAvailablePage) {
+            this.pageNav = 1;
+        }
+        this.fetchUsers();
+    }
 
     get isLoading(): boolean {
-        return this.loadingStatus === LoadingStatus.Loading;
+        return this.state.loadingStatus === LoadingStatus.Loading;
     }
 
     get isFailed(): boolean {
-        return this.loadingStatus === LoadingStatus.Failed;
+        return this.state.loadingStatus === LoadingStatus.Failed;
     }
 
     get isSuccess(): boolean {
-        return this.loadingStatus === LoadingStatus.Success;
+        return this.state.loadingStatus === LoadingStatus.Success;
     }
 
     get usersNotFound(): boolean {
-        return this.isSuccess && !this.users.length;
+        return this.isSuccess && !this.state.users.length;
     }
 
     get deleteModalIsVisible(): boolean {
-        return !!this.userIdPendingDeletion;
+        return !!this.state.userIdPendingDeletion;
     }
 
     get skip(): number {
-        return (this.pageNav - 1) * this.pageSize;
+        return this.getters.skip;
     }
 
     get limit(): number {
-        return this.pageSize;
+        return this.getters.limit;
     }
 
     get maxAvailablePage(): number {
-        return Math.ceil(this.totalUsers / this.pageSize);
+        return Math.ceil(this.state.totalUsers / this.state.pageSize);
     }
 
 
@@ -133,7 +171,7 @@ export default class TableWithUsers extends Vue {
 
 
     getOrderByIndex(i: number): number {
-        return (this.pageNav - 1) * this.pageSize + i;
+        return this.getters.getOrderByIndex(i);
     }
 
     viewUser(userId: string): void {
@@ -146,44 +184,22 @@ export default class TableWithUsers extends Vue {
     }
 
     markAsPendingDeletion(userId: string | null): void {
-        this.userIdPendingDeletion = userId;
-    }
-
-    @Watch('pageNav')
-    @Watch('pageSize')
-    updateUserList(): void {
-        if (this.pageNav > this.maxAvailablePage) {
-            this.pageNav = 1;
-        }
-        this.fetchUsers();
+        this.$store.commit({
+            type: 'setUserIdPendingDeletion',
+            userId
+        });
     }
 
     fetchUsers(): void {
-        this.loadingStatus = LoadingStatus.Loading;
-        getUsers({ skip: this.skip, limit: this.limit })
-            .then(({ total, users }) => {
-                this.loadingStatus = LoadingStatus.Success;
-                this.users = users;
-                this.totalUsers = total;
-            })
-            .catch((err) => {
-                this.loadingStatus = LoadingStatus.Failed;
-                this.errorMessage = err.message;
-            });
+        this.$store.dispatch({
+            type: 'fetchUsers'
+        });
     }
 
     confirmDeletionUser(): void {
-        this.loadingStatus = LoadingStatus.Loading;
-        deleteUserById(this.userIdPendingDeletion!)
-            .then(() => {
-                this.loadingStatus = LoadingStatus.Success;
-                this.users = this.users.filter(u => u.uuid !== this.userIdPendingDeletion);
-                this.userIdPendingDeletion = null;
-            })
-            .catch(err => {
-                this.loadingStatus = LoadingStatus.Failed;
-                this.errorMessage = err.message;
-            });
+        this.$store.dispatch({
+            type: 'confirmDeletionUser'
+        });
     }
 
 }

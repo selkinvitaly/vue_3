@@ -3,6 +3,7 @@
         <th scope="row">{{index + 1}}</th>
         <td>
             <span
+                class="useritem__fullname"
                 @click="viewUser(user.uuid)"
                 style="border-bottom:1px dotted;cursor:pointer"
             >{{fullName}}</span>
@@ -20,7 +21,7 @@
             <button
                 @click="deleteUser"
                 type="button"
-                class="waves-effect waves-light btn red accent-2"
+                class="useritem__delete waves-effect waves-light btn red accent-2"
             >delete <i class="material-icons right">delete</i></button>
         </td>
     </tr>
