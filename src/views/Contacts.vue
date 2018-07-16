@@ -4,21 +4,18 @@
             <tr slot="header">
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">Avatar</th>
-                <th scope="col">Delete</th>
+                <th scope="col">Phone</th>
             </tr>
             <template
                 slot="body"
-                slot-scope="{users, getOrderByIndex, viewUser, markAsPendingDeletion}"
+                slot-scope="{users, getOrderByIndex}"
             >
                 <tr
                     v-for="(user, index) in users"
-                    is="UserItem"
+                    is="ContactUser"
                     :index="getOrderByIndex(index)"
                     :key="user.uuid"
                     :user="user"
-                    @view-user="viewUser"
-                    @delete-user="markAsPendingDeletion"
                 ></tr>
             </template>
         </TableWithUsers>
@@ -30,13 +27,13 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 import TableWithUsers from '../components/TableWithUsers/index.vue';
-import UserItem from '../components/TableWithUsers/UserItem.vue';
+import ContactUser from '../components/ContactUser.vue';
 
 
 @Component({
     components: {
-        TableWithUsers, UserItem
+        TableWithUsers, ContactUser
     }
 })
-export default class UserList extends Vue {}
+export default class Contacts extends Vue {}
 </script>

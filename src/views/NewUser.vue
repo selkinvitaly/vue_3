@@ -4,12 +4,12 @@
             v-if="isLoading"
         />
 
-        <FailedStatus
+        <Alert
             v-if="isFailed"
             :message="errorMessage"
         />
 
-        <NewUserForm
+        <UserForm
             v-model="newUserModel"
             :is-loading="isLoading"
         >
@@ -19,7 +19,7 @@
                 class="waves-effect waves-light btn"
                 @click="createUser"
             >create new user</button>
-        </NewUserForm>
+        </UserForm>
     </div>
 </template>
 
@@ -27,16 +27,16 @@
 import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
-import FailedStatus from '../components/FailedStatus.vue';
+import Alert from '../components/Alert.vue';
 import ProgressLoader from '../components/ProgressLoader.vue';
-import NewUserForm from '../components/NewUserForm.vue';
+import UserForm from '../components/UserForm.vue';
 import { LoadingStatus, NewUser } from '../models/users';
 import { createNewUser } from '../services/create-new-user';
 
 
 @Component({
     components: {
-        FailedStatus, ProgressLoader, NewUserForm
+        Alert, ProgressLoader, UserForm
     }
 })
 export default class UserDetails extends Vue {
@@ -74,22 +74,33 @@ export default class UserDetails extends Vue {
             lastName: '',
             avatarUrl: '',
             phone: '',
+            birthday: '',
+            biography: '',
             email: ''
         };
     }
 
-
     createUser(): void {
         this.loadingStatus = LoadingStatus.Loading;
         createNewUser(this.newUserModel)
-            .then(() => {
+            .then(newUser => {
                 this.newUserModel = this.getDefaultModel();
                 this.loadingStatus = LoadingStatus.Success;
+                this.redirectAfterCreating(newUser.uuid);
             })
             .catch(err => {
                 this.errorMessage = err.message;
                 this.loadingStatus = LoadingStatus.Failed;
             });
+    }
+
+    redirectAfterCreating(newUserId: string): void {
+        this.$router.push({
+            name: 'user-details',
+            params: {
+                id: newUserId
+            }
+        });
     }
 
 }

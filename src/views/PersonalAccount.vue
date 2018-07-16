@@ -3,29 +3,32 @@
         <ProgressLoader
             v-if="isLoading"
         />
-        <FailedStatus
+
+        <Alert
             v-if="isFailed"
             :message="errorMessage"
         />
 
-        <AccountDetails
+        <InfoCard
             v-if="authorized"
-            :account="account"
-            @sign-out="signOut"
+            :header-text="account.login"
+            description="Welcome to your personal page!"
+            button-text="Sign-out!"
+            @click-button="signOut"
         />
 
-        <NotAuth
+        <InfoCard
             v-if="notAuthorized"
-            @sign-in="showAuthForm"
+            header-text="Ooops!!"
+            description="You need to sign-in!"
+            button-text="Sign-in!"
+            @click-button="showAuthForm"
         />
 
         <SignInForm
             v-if="authFormVisible"
-            :login="authFormData.login"
-            :password="authFormData.password"
-            @input-login="updateSignInData({login: $event})"
+            v-model="authFormData"
             @submit="signIn"
-            @input-password="updateSignInData({password: $event})"
         />
     </div>
 </template>
@@ -35,25 +38,19 @@ import Vue from 'vue';
 import { Component } from 'vue-property-decorator';
 
 import { LoadingStatus } from '../models/users';
-import { Account } from '../models/accounts';
+import { Account, SignInData } from '../models/accounts';
 import { checkAuth } from '../services/check-auth';
 import { signIn } from '../services/sign-in';
 import { signOut } from '../services/sign-out';
-import FailedStatus from '../components/FailedStatus.vue';
+import Alert from '../components/Alert.vue';
 import ProgressLoader from '../components/ProgressLoader.vue';
-import NotAuth from '../components/NotAuth.vue';
-import AccountDetails from '../components/AccountDetails.vue';
+import InfoCard from '../components/InfoCard.vue';
 import SignInForm from '../components/SignInForm.vue';
 
 
-interface SignInData {
-    login: string;
-    password: string;
-}
-
 @Component({
     components: {
-        ProgressLoader, FailedStatus, NotAuth, AccountDetails, SignInForm
+        ProgressLoader, Alert, InfoCard, SignInForm
     }
 })
 export default class PersonalAccount extends Vue {
@@ -131,7 +128,6 @@ export default class PersonalAccount extends Vue {
         });
     }
 
-
     showAuthForm(): void {
         this.authFormVisible = true;
     }
@@ -149,13 +145,6 @@ export default class PersonalAccount extends Vue {
                 this.authFormVisible = false;
                 this.errorMessage = err.message;
             });
-    }
-
-    updateSignInData(signInData: Partial<SignInData>): void {
-        this.authFormData = {
-            ...this.authFormData,
-            ...signInData
-        };
     }
 
 }

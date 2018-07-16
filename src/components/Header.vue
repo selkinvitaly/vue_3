@@ -1,13 +1,18 @@
 <template>
     <nav role="navigation">
         <div class="nav-wrapper container">
-            <a id="logo-container" class="brand-logo">app</a>
+            <a id="logo-container" class="brand-logo">
+                <img class="brand-logo__img" src="../assets/logo.png" alt="" />
+            </a>
             <ul class="right hide-on-med-and-down">
                 <router-link tag="li" to="/account">
                     <a>Account</a>
                 </router-link>
                 <router-link tag="li" to="/users/">
                     <a>Users</a>
+                </router-link>
+                <router-link tag="li" to="/contacts/">
+                    <a>Contacts</a>
                 </router-link>
             </ul>
 
@@ -17,6 +22,9 @@
                 </router-link>
                 <router-link tag="li" to="/users/">
                     <a>Users</a>
+                </router-link>
+                <router-link tag="li" to="/contacts/">
+                    <a>Contacts</a>
                 </router-link>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -30,24 +38,31 @@
     import { Sidenav } from 'materialize-css';
 
 
-    @Component({})
+    @Component<any>({
+        sideNavInstance: null
+    })
     export default class Header extends Vue {
 
-        sidenavInstance: Sidenav | null = null;
-
         mounted() {
-            this.sidenavInstance = Sidenav.init(this.$refs.sidenav as HTMLElement);
+            (this.$options as any).sideNavInstance = Sidenav.init(this.$refs.sidenav as HTMLElement);
         }
 
         beforeDestroy() {
-            this.sidenavInstance!.destroy();
+            (this.$options as any).sideNavInstance.destroy();
         }
     }
 
 </script>
 <style lang="stylus" scoped>
     nav {
-        background-color: #26a69a
+        background-color #26a69a
+    }
+
+    .brand-logo__img {
+        width 45px
+        display block
+        position relative
+        top 10px
     }
 </style>
 

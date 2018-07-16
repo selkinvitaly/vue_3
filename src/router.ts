@@ -5,6 +5,7 @@ import UserDetails from './views/UserDetails.vue';
 import UserList from './views/UserList.vue';
 import PersonalAccount from './views/PersonalAccount.vue';
 import NewUser from './views/NewUser.vue';
+import Contacts from './views/Contacts.vue';
 import { checkAuth } from './services/check-auth';
 
 Vue.use(Router);
@@ -47,6 +48,14 @@ const router = new Router({
         path: '/account',
         name: 'account',
         component: PersonalAccount
+    },
+    {
+        path: '/contacts',
+        name: 'contacts',
+        meta: {
+            authRequired: true
+        },
+        component: Contacts
     }
   ],
 });

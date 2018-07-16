@@ -1,21 +1,20 @@
 <template>
-    <div class="update-user">
+    <div>
         <ProgressLoader
             v-if="isLoading"
         />
 
-        <FailedStatus
+        <Alert
             v-else-if="isFailed"
             :message="errorMessage"
         />
 
-        <NotFound
+        <Alert
             v-else-if="userNotFound"
             message="no such user found!"
         />
 
-        <EditingForm
-            :user="userDetails"
+        <UserForm
             :is-loading="isLoading"
             v-model="userDetails"
             v-else
@@ -26,26 +25,30 @@
                     :disabled="!prevSiblingsExists || isLoading"
                     class="waves-effect waves-light btn"
                     @click="goPrevUser"
-                ><i class="material-icons left">navigate_before</i></button>
+                >
+                    <i class="material-icons left">navigate_before</i>
+                </button>
 
                 <button
                     type="button"
                     :disabled="fieldsNotModified || isLoading"
                     class="waves-effect waves-light btn"
                     @click="updateUser"
-                ><i class="material-icons left">done</i>save</button>
+                >
+                    <i class="material-icons left">done</i>save
+                </button>
 
                 <button
                     type="button"
                     :disabled="!nextSiblingsExists || isLoading"
                     class="waves-effect waves-light btn"
                     @click="goNextUser"
-                ><i class="material-icons right">navigate_next</i></button>
+                >
+                    <i class="material-icons right">navigate_next</i>
+                </button>
                 
             </div>
-
-            
-        </EditingForm>
+        </UserForm>
     </div>
 </template>
 
@@ -55,10 +58,9 @@ import * as isEqual from 'lodash/isEqual';
 import { Component } from 'vue-property-decorator';
 import { Route } from 'vue-router';
 
-import FailedStatus from '../components/FailedStatus.vue';
-import NotFound from '../components/NotFound.vue';
+import Alert from '../components/Alert.vue';
 import ProgressLoader from '../components/ProgressLoader.vue';
-import EditingForm from '../components/EditingForm.vue';
+import UserForm from '../components/UserForm.vue';
 import { LoadingStatus, User, SiblingsInfo } from '../models/users';
 import { getUserById } from '../services/get-user-by-id';
 import { updateUserById } from '../services/update-user-by-id';
@@ -69,7 +71,7 @@ Component.registerHooks(['beforeRouteUpdate']);
 
 @Component({
     components: {
-        FailedStatus, ProgressLoader, NotFound, EditingForm
+        Alert, ProgressLoader, UserForm
     }
 })
 export default class UserDetails extends Vue {
@@ -154,11 +156,18 @@ export default class UserDetails extends Vue {
                     ...this.userDetails!
                 };
                 this.loadingStatus = LoadingStatus.Success;
+                this.redirectAfterUpdating();
             })
             .catch(err => {
                 this.loadingStatus = LoadingStatus.Failed;
                 this.errorMessage = err.message;
             });
+    }
+
+    redirectAfterUpdating(): void {
+        this.$router.push({
+            name: 'user-list'
+        });
     }
 
     goPrevUser(): void {
@@ -183,13 +192,10 @@ export default class UserDetails extends Vue {
 </script>
 
 <style lang="stylus" scoped>
-    .update-user {
-        padding-top: 30px
-    }
 
     .update-user-btns {
-        display: flex
-        justify-content: space-between
+        display flex
+        justify-content space-between
     }
 </style>
 

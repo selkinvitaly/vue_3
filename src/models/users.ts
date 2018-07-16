@@ -1,10 +1,12 @@
 export interface NewUser {
     email: string;
+    birthday: string;
     avatarUrl: string | null;
     firstName: string;
     lastName: string;
     phone: string;
     titleName: string;
+    biography: string;
 }
 
 export interface User extends NewUser {
